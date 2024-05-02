@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <ul id="cartItems"></ul>
+    <button onclick="checkout()">Checkout</button>
+    
+    <script>
+        const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const cartList = document.getElementById('cartItems');
+        
+        // Function to remove item from cart
+        function removeItem(index) {
+            cartItems.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            displayCartItems();
+        }
+
+        // Function to display cart items
+        function displayCartItems() {
+            cartList.innerHTML = '';
+            cartItems.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.name}" style="max-width: 50px; vertical-align: middle;">
+                    ${item.name} - $${item.price.toFixed(2)}
+                    <button onclick="removeItem(${index})">Remove</button>
+                `;
+                cartList.appendChild(li);
+            });
+        }
+
+        displayCartItems();
+        
+        
+    </script>
+</body>
+</html>
